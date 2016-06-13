@@ -19,7 +19,7 @@ class SelectKBest():
 
         self._fitted = False
 
-    def fit(self, df, featureCols, targetCol):
+    def transform(self, df, featureCols, targetCol):
 
         # build features assemble
         formula = RFormula(
@@ -42,15 +42,9 @@ class SelectKBest():
             vector = feats.map(lambda x: x[i])
             scores.append(self.sfunc_(vector,target))
         self.scores_ = scores
-
-        self._fitted = True
-
-    def transform(self, df):
-
-        if not self._fitted:
-            raise RuntimeError('First call fit() method')
-
-        cols = df.columns
-        idx = sorted(range(len(self.scores_)),key=self.scores_.__getitem__)
-
-        return df.select(*[cols[idd] for idd in idx])
+        
+        # sort scores
+        idx = sorted(range(len(self.scores_)),reverse=True,key=self.scores_.__getitem__)
+        
+        # return dataframe with k-best columns 
+        return df.select(*[featureCols[idd] for idd in idx[:self.k_]])
