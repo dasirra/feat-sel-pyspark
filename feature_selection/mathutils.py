@@ -3,7 +3,7 @@ from pyspark.mllib.stat import Statistics
 
 def dist_corr(v1, v2):
 
-	return Statistics.corr(v1,v2)
+    return Statistics.corr(v1,v2)
 
 def dist_ftest(v, t):
     
@@ -20,11 +20,11 @@ def dist_ftest(v, t):
 
     # between-group variability
     num = sum([nx[1]*(mx[1]-overall_mean)**2
-    	for (nx,mx) in zip(group_count.collect(),
-    		group_mean.collect())])/float(n_groups-1)
+        for (nx,mx) in zip(group_count.collect(),
+            group_mean.collect())])/float(n_groups-1)
     
     # within-group variability
     den = aux_within.map(lambda (_,x): (x[0]-x[1])**2) \
-    	.reduce(add)/float(n_samples-n_groups)
+        .reduce(add)/float(n_samples-n_groups)
     
     return num/den
