@@ -23,7 +23,7 @@ class SelectKBest():
 
 		# build features assemble
 		formula = RFormula(
-		    formula = '{target} ~ + {predictors}.'format(target=targetCol,
+		    formula = '{target} ~ {predictors}'.format(target=targetCol,
 		    	predictors='+'.join(featureCols)),
 		    featuresCol = 'features',
 		    labelCol = 'target'
@@ -31,9 +31,9 @@ class SelectKBest():
 		assembled_df = formula.fit(df).transform(df)
 
 		# extract features and target
-		feats = out_df.select('features').rdd
+		feats = assembled_df.select('features').rdd
 		feats = feats.map(lambda x: x['features'])
-		target = out_df.select('target').rdd
+		target = assembled_df.select('target').rdd
 		target = target.map(lambda x: x['target'])
 
 		# compute per-column metric
@@ -53,4 +53,4 @@ class SelectKBest():
 		cols = df.columns
 		idx = sorted(range(len(self.scores_)),key=self.scores_.__getitem__)
 
-		return df.select(cols[idx])
+		return df.select(*[cols[idd] for idd in idx])
