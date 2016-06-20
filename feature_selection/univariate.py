@@ -1,4 +1,5 @@
 # Author: Daniel Sierra
+# GitHub: https://github.com/dasirra/feat-sel-pyspark
 
 from operator import add
 
@@ -52,7 +53,7 @@ class SelectKBest():
     	-------
     	transformed_df : New Spark DataFrame with only the most important
     		feature columns.
-    		
+
     	"""
 
         # build features assemble
