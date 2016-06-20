@@ -1,13 +1,21 @@
+# Author: Daniel Sierra
+# GitHub: https://github.com/dasirra/feat-sel-pyspark
 
 from operator import add
 
 from pyspark.mllib.stat import Statistics
 
 def dist_corr(v1, v2):
+    """
+    Function to compute correlation between two Spark RDDs
+    """
 
     return Statistics.corr(v1,v2)
 
 def dist_ftest(v, t):
+    """
+    Function to compute F-Score between two Spark RDDs
+    """
     
     # calculate auxiliary variables
     n_samples = v.count()
