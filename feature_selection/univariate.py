@@ -3,7 +3,7 @@
 
 from operator import add
 
-from pyspark.ml.feature import RFormula
+from pyspark.ml.feature import VectorAssembler
 
 from mathutils import *
 
