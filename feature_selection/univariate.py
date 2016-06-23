@@ -57,13 +57,13 @@ class SelectKBest():
     	"""
 
         # build features assemble
-        formula = RFormula(
-            formula = '{target} ~ {predictors}'.format(target=targetCol,
-                predictors='+'.join(featureCols)),
-            featuresCol = 'features',
-            labelCol = 'target'
-        )
-        assembled_df = formula.fit(df).transform(df)
+        assembler = VectorAssembler(
+		    inputCols = featureCols,
+		    outputCol = 'features')
+		assembled_df = assembler.transform(df)
+
+		# rename target column
+		assembled_df = assembled_df.withColumnRenamed(targetCol,'target')
 
         # extract features and target
         feats = assembled_df.select('features').rdd
